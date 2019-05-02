@@ -1,28 +1,40 @@
 import React, { Component } from 'react'
-import ReviewsContainer from '../../containers/ReviewsContainer'
 
-class Restaurant extends Component {
+class RestaurantInput extends Component {
 
-  handleOnClick = () => {
-    this.props.deleteRestaurant(this.props.restaurant.id)
+  state = {
+    text: ''
+  }
+
+  handleOnChange = event => {
+    this.setState({
+      text: event.target.value
+    })
+  }
+
+  handleOnSubmit = event => {
+    event.preventDefault();
+    this.props.addRestaurant(this.state.text)
+    this.setState({
+      text: ''
+    })
   }
 
   render() {
-    const {restaurant} = this.props
-
     return (
-      this.props.restaurant.id !== '' ?
       <div>
-        <br />
-        <li>
-          {restaurant.text}
-          <label> </label><button onClick={this.handleOnClick}>X</button>
-          <ReviewsContainer restaurant={restaurant}/>
-        </li>
-      </div> :
-      null
+        <form onSubmit={this.handleOnSubmit} >
+          <label>Add restaurant: </label>
+          <input
+            type="text"
+            value={this.state.text}
+            onChange={this.handleOnChange} />
+          <label> </label>
+          <input type="submit" />
+        </form>
+      </div>
     )
   }
 }
 
-export default Restaurant
+export default RestaurantInput
